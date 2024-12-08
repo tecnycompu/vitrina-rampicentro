@@ -11,13 +11,19 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RolSeeder::class,           // Roles primero
+            PermisoSeeder::class,       // Luego los permisos
+            UsuarioSeeder::class,      // Usuarios después de los roles y permisos
+            CategoriaLocalSeeder::class, // Categorías después de usuarios y permisos
+            ProductoSeeder::class,      // Productos después de categorías y usuarios
+            CarritoSeeder::class,       // Carritos después de usuarios
+            PedidoSeeder::class,        // Pedidos después de usuarios
+            OrderDetailsSeeder::class,  // Order details después de productos y pedidos
+            ProductoCategoriaSeeder::class, // Producto-Categorías después de productos y categorías
+            RolPermisoSeeder::class,    // Rol-Permiso al final, ya que depende de roles y permisos
         ]);
     }
 }

@@ -2,16 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Pedido;
+use App\Models\Usuario;
 
 class PedidoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+        $usuario = Usuario::first(); // Obtener un usuario
+
+        Pedido::create([
+            'usuario_id' => $usuario->id,
+            'fecha' => now(),
+            'total_price' => 200.00,
+            'status' => true,
+            'direccion_envio' => 'Calle Ficticia 123'
+        ]);
     }
 }

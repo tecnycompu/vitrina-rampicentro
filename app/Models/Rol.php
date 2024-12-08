@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Rol extends Model
 {
-    //Relación con Usuario:
+    use HasFactory;
 
-    public function usuarios()
-    {
-        return $this->hasMany(Usuario::class);
-    }
-    //Relación con Permiso (muchos a muchos):
+    // Especificar que la tabla se llama 'roles' (no 'rols')
+    protected $table = 'roles';  // Asegúrate de que esta propiedad está definida correctamente
 
-    public function permisos()
-    {
-        return $this->belongsToMany(Permiso::class, 'rol_permisos');
-    }
+    // Definir las columnas 'fillable'
+    protected $fillable = ['nombreRol'];
 }

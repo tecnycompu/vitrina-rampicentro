@@ -2,16 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Permiso;
 
 class PermisoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        //
+        Permiso::create([
+            'nombrePermiso' => 'VER_PRODUCTOS',
+            'descripcion' => 'Permite ver productos disponibles en la plataforma'
+        ]);
+
+        Permiso::create([
+            'nombrePermiso' => 'CREAR_PRODUCTO',
+            'descripcion' => 'Permite crear nuevos productos'
+        ]);
     }
 }

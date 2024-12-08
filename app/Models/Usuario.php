@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
+    // Especificar el nombre de la tabla
+    protected $table = 'usuarios'; // Cambiar a 'usuarios' si tu tabla no sigue la convención de Laravel
+
+    // Definir los campos que pueden ser asignados masivamente
+    protected $fillable = ['email', 'contraseña', 'nombre', 'apellido', 'rol_id'];
+
     // Relación con el modelo Rol (un usuario tiene un rol)
     public function rol()
     {

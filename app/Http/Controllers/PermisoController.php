@@ -2,36 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rol;
+use App\Models\Permiso;
 use Illuminate\Http\Request;
 
-class RolController extends Controller
+class PermisoController extends Controller
 {
     public function index()
     {
-        return Rol::all();
+        return Permiso::all();
     }
 
     public function show($id)
     {
-        return Rol::findOrFail($id);
+        return Permiso::findOrFail($id);
     }
 
     public function store(Request $request)
     {
-        return Rol::create($request->all());
+        return Permiso::create($request->all());
     }
 
     public function update(Request $request, $id)
     {
-        $rol = Rol::findOrFail($id);
-        $rol->update($request->all());
-        return $rol;
+        $permiso = Permiso::findOrFail($id);
+        $permiso->update($request->all());
+        return $permiso;
     }
 
     public function destroy($id)
     {
-        Rol::destroy($id);
+        Permiso::destroy($id);
         return response()->json(null, 204);
     }
 }
