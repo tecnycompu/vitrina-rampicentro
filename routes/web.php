@@ -52,6 +52,7 @@ Route::resource('producto-categorias', ProductoCategoriaController::class)->midd
 Route::resource('rol-permisos', RolPermisoController::class)->middleware('auth');
 
 // Rutas del perfil del usuario (ya existente)
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
