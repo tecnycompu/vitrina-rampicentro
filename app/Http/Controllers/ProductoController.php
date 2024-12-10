@@ -9,16 +9,14 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        // Obtener todos los productos
-        $productos = Producto::all();
-        return response()->json($productos);
+        $productos = Producto::with('categoriaLocal')
+            ->paginate(9);  // 9 productos por página
+        return view('productos.index', compact('productos'));
     }
 
-    public function show($id)
+    public function show(Producto $producto)
     {
-        // Obtener un producto por su ID
-        $producto = Producto::findOrFail($id);
-        return response()->json($producto);
+        return view('productos.show', compact('producto'));
     }
 
     public function store(Request $request)
