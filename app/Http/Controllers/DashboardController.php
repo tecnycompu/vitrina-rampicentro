@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Usuario; // Importar el modelo Usuario
+use App\Models\Producto; // Importar el modelo Producto
+use App\Models\Pedido; // Importar el modelo Pedido
 
 class DashboardController extends Controller
 {
-    /**
-     * Muestra el panel principal del Dashboard.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
-        // Aquí puedes pasar datos al dashboard, como estadísticas o gráficos
         $datos = [
-            'usuarios' => 100, // Ejemplo: total de usuarios
-            'productos' => 50, // Ejemplo: total de productos
-            'pedidos' => 20,   // Ejemplo: total de pedidos
+            'usuarios' => Usuario::count(),
+            'productos' => Producto::count(),
+            'pedidos' => Pedido::count(),
+            'pedidos_recientes' => Pedido::latest()->take(5)->get(),
         ];
 
-        // Retorna la vista del dashboard
         return view('dashboard.index', compact('datos'));
     }
 }

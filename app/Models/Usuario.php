@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Rol;
+use App\Models\Producto;
+use App\Models\Carrito;
+use App\Models\Pedido;
 
 class Usuario extends Model
 {
