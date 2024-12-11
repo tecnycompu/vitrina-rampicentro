@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('nombreProducto');
             $table->text('descripcion');
             $table->decimal('precio', 10, 2);
-            $table->boolean('esIntangible');
-            $table->integer('stock')->nullable();
-            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
+            $table->boolean('esIntangible')->default(false);
+            $table->unsignedInteger('stock')->nullable();
+            $table->string('imagen')->nullable();
             $table->foreignId('categoria_local_id')->constrained('categoria_locals')->onDelete('cascade');
-            $table->string('imagen')->nullable();  // Ruta de la imagen
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade'); // Verifica este campo
             $table->timestamps();
         });
     }

@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Producto;
-use App\Models\Usuario;
+use App\Models\User; // Asegúrate de importar User
 use App\Models\CategoriaLocal;
 
 class ProductoSeeder extends Seeder
 {
     public function run()
     {
-        $usuario = Usuario::first(); // Obtener un usuario existente
+        $usuario = User::first(); // Obtener un usuario existente
         $categoria = CategoriaLocal::first(); // Obtener una categoría existente
 
         Producto::create([

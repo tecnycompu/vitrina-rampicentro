@@ -4,13 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Pedido;
-use App\Models\Usuario;
+use App\Models\User; // Asegúrate de importar User
 
 class PedidoSeeder extends Seeder
 {
     public function run()
     {
-        $usuario = Usuario::first(); // Obtener un usuario
+        $usuario = User::first(); // Obtener un usuario
 
         Pedido::create([
             'usuario_id' => $usuario->id,

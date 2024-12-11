@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('carritos', function (Blueprint $table) {
             $table->id(); // Clave primaria
-            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade'); // Clave foránea
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade'); // Cambia 'usuarios' por 'users' si usas la tabla predeterminada
             $table->decimal('total_price', 10, 2)->default(0.00);
             $table->timestamps();
         });

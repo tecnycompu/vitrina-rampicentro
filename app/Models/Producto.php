@@ -6,25 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    //Relación con Usuario (vendedor):
+    // Campos protegidos para asignación masiva
+    protected $fillable = [
+        'nombreProducto',
+        'descripcion',
+        'precio',
+        'stock',
+        'categoria_local_id',
+        'imagen',
+        'usuario_id',
+    ];
+
+    // Relación con Usuario (vendedor)
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 
-    //Relación con CategoriaLocal:
-
+    // Relación con CategoriaLocal
     public function categoriaLocal()
     {
         return $this->belongsTo(CategoriaLocal::class);
     }
-    //Relación con OrderDetails:
 
+    // Relación con OrderDetails
     public function orderDetails()
     {
         return $this->hasMany(OrderDetails::class);
     }
-    //Relación con ProductoCategoria:
+
+    // Relación con ProductoCategoria
     public function categorias()
     {
         return $this->belongsToMany(CategoriaLocal::class, 'producto_categorias');

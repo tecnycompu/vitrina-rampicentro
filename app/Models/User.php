@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'apellido',
+        'telefono',
+        'direccion',
+        'rol_id'
     ];
 
     /**
@@ -45,4 +50,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relación con Rol
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    // Otras relaciones que tenías en tu modelo Usuario original
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
+
+    public function carrito()
+    {
+        return $this->hasOne(Carrito::class);
+    }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
+
 }

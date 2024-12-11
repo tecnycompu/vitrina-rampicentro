@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('apellido')->nullable();
+            $table->string('telefono')->nullable();
+            $table->text('direccion')->nullable();
+            $table->foreignId('rol_id')->default(2)->constrained('roles')->onDelete('cascade'); // Asigna un rol por defecto
             $table->rememberToken();
             $table->timestamps();
         });

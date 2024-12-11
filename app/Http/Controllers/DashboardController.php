@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User; // Cambio de Usuario a User
 use App\Models\Producto;
 use App\Models\Pedido;
 use App\Models\CategoriaLocal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 class DashboardController extends Controller
 {
@@ -22,7 +24,7 @@ class DashboardController extends Controller
 
         // Fetch dashboard statistics
         $datos = [
-            'usuarios' => Usuario::count(),
+            'usuarios' => User::count(),
             'productos' => Producto::count(),
             'pedidos' => Pedido::count(),
             'categorias' => CategoriaLocal::count(),

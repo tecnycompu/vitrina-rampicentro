@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\User; // Asegúrate de importar User
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolSeeder::class,           // Roles primero
             PermisoSeeder::class,       // Luego los permisos
-            UsuarioSeeder::class,      // Usuarios después de los roles y permisos
+            UserSeeder::class, // Agregar aquí el seeder de usuarios
             CategoriaLocalSeeder::class, // Categorías después de usuarios y permisos
             ProductoSeeder::class,      // Productos después de categorías y usuarios
             CarritoSeeder::class,       // Carritos después de usuarios
