@@ -10,22 +10,22 @@ Route::get('/', function () {
     return view('welcome');  // Página de bienvenida
 });
 
-// Dashboard: Página principal para usuarios autenticados
+// Dashboard con validación de roles
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])  // Se requiere autenticación y verificación de correo
+    ->middleware(['auth', 'verified', 'role:Admin,User'])  // Solo Admin y User pueden acceder
     ->name('dashboard');
 
 // Rutas para el perfil del usuario
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');  // Editar perfil
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');  // Actualizar perfil
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');  // Eliminar perfil
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas de recursos para las categorías y productos
-Route::middleware(['auth'])->group(function () {
-    Route::resource('categorias', CategoriaLocalController::class);  // Rutas CRUD para categorías
-    Route::resource('productos', ProductoController::class);  // Rutas CRUD para productos
+// Rutas de recursos para categorías (solo para Admin)
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::resource('categorias', CategoriaLocalController::class);
+    Route::resource('productos', ProductoController::class);
 });
 
 require __DIR__.'/auth.php';  // Rutas de autenticación generadas por Laravel Breeze
