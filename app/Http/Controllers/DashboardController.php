@@ -2,54 +2,85 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; // Cambio de Usuario a User
+use App\Models\User;
 use App\Models\Producto;
 use App\Models\Pedido;
 use App\Models\CategoriaLocal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-
 class DashboardController extends Controller
 {
-    /**
-     * Display the dashboard with dynamic statistics
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
-        // Get the currently authenticated user
         $user = Auth::user();
 
-        // Fetch dashboard statistics
+        // Datos generales
         $datos = [
             'usuarios' => User::count(),
             'productos' => Producto::count(),
             'pedidos' => Pedido::count(),
             'categorias' => CategoriaLocal::count(),
-            
-            // User-specific data if needed
-            'userProductos' => $user ? Producto::where('usuario_id', $user->id)->count() : 0,
-            'userPedidos' => $user ? Pedido::where('usuario_id', $user->id)->count() : 0
         ];
 
-        // Recent orders
-        $recentPedidos = Pedido::with('usuario')
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+        // Contenido específico por rol
+        switch ($user->rol->nombreRol) {
+            case 'Admin':
+                $datos = $this->getDatosAdmin($datos);
+                $recentPedidos = Pedido::with('usuario')
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                $recentProductos = Producto::with('categoriaLocal')
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                break;
 
-        // Recent products
-        $recentProductos = Producto::with('categoriaLocal')
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+            case 'User':
+                $datos = $this->getDatosUser($user, $datos);
+                $recentPedidos = Pedido::where('usuario_id', $user->id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                $recentProductos = Producto::where('usuario_id', $user->id)
+                    ->with('categoriaLocal')
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                break;
+
+            default:
+                $recentPedidos = collect();
+                $recentProductos = collect();
+                break;
+        }
 
         return view('dashboard.index', [
             'datos' => $datos,
             'recentPedidos' => $recentPedidos,
-            'recentProductos' => $recentProductos
+            'recentProductos' => $recentProductos,
+            'userRole' => $user->rol->nombreRol
         ]);
+    }
+
+    private function getDatosAdmin($datos)
+    {
+        // Datos específicos para Admin
+        $datos['totalVentas'] = Pedido::sum('total_price');
+        $datos['categoriasConMasProductos'] = CategoriaLocal::withCount('productos')
+            ->orderBy('productos_count', 'desc')
+            ->take(3)
+            ->get();
+        return $datos;
+    }
+
+    private function getDatosUser($user, $datos)
+    {
+        // Datos específicos para User
+        $datos['misPedidos'] = Pedido::where('usuario_id', $user->id)->count();
+        $datos['misProductos'] = Producto::where('usuario_id', $user->id)->count();
+        $datos['totalCompras'] = Pedido::where('usuario_id', $user->id)->sum('total_price');
+        return $datos;
     }
 }
