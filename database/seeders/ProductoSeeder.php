@@ -15,14 +15,14 @@ class ProductoSeeder extends Seeder
         $categoria = CategoriaLocal::first(); // Obtener una categoría existente
 
         Producto::create([
-            'nombreProducto' => 'Impresora HP',
-            'descripcion' => 'Impresora multifuncional',
+            'nombreProducto' => 'Impresora HP multifuncion 3050',
+            'descripcion' => 'Impresora multifuncional: deskjet multifuncion 3050 wifi.jpg',
             'precio' => 150.00,
             'esIntangible' => false,
             'stock' => 10,
             'usuario_id' => $usuario->id,
             'categoria_local_id' => $categoria->id,
-            'imagen' => '/images/impresora.jpg'
+            'imagen' => '/images/Impresora hp deskjet multifuncion 3050 wifi.jpg'
         ]);
     }
 }
